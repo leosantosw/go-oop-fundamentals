@@ -4,17 +4,15 @@ import (
 	"fmt"
 
 	"github.com/bank/accounts"
+	"github.com/bank/customers"
 )
 
 func main() {
 	fmt.Println("Hi, welcome to the bank!")
-	account1 := accounts.CheckingAccount{"Leonardo", 123, 123456789, 500.00}
-	account2 := accounts.CheckingAccount{"Daniel", 123, 123456789, 500.00}
+	customer := customers.Customer{Name: "Leonardo", CPF: "123.456.789.10", Occupation: "Desenvolvedor GO"}
+	account1 := accounts.CheckingAccount{Customer: customer, AgencyNumber: 123, AccountNumber: 123456789}
+	account1.Deposit(500)
 
+	fmt.Println("Account 1:", account1.GetBalance())
 	fmt.Println("Account 1:", account1)
-	fmt.Println("Account 2:", account2)
-	fmt.Println(account1.Transfer(200, &account2))
-
-	fmt.Println("Account 1:", account1.Balance)
-	fmt.Println("Account 2:", account2.Balance)
 }
