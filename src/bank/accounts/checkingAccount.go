@@ -11,29 +11,29 @@ type CheckingAccount struct {
 	balance       float64
 }
 
-func (c *CheckingAccount) Withdraw(value float64) (string, float64) {
-	canWithdraw := value > 0 && value <= c.balance
+func (c *CheckingAccount) Withdraw(amount float64) (string, float64) {
+	canWithdraw := amount > 0 && amount <= c.balance
 	if canWithdraw {
-		c.balance -= value
+		c.balance -= amount
 		return "successfully", c.balance
 	} else {
 		return "enough balance", c.balance
 	}
 }
 
-func (c *CheckingAccount) Deposit(value float64) (string, float64) {
-	if value > 0 {
-		c.balance += value
+func (c *CheckingAccount) Deposit(amount float64) (string, float64) {
+	if amount > 0 {
+		c.balance += amount
 		return "successfully", c.balance
 	} else {
 		return "enough deposit", c.balance
 	}
 }
 
-func (c *CheckingAccount) Transfer(valueToTransfer float64, accountDestination *CheckingAccount) bool {
-	if valueToTransfer <= c.balance && valueToTransfer > 0 {
-		c.Withdraw(valueToTransfer)
-		accountDestination.Deposit(valueToTransfer)
+func (c *CheckingAccount) Transfer(amountToTransfer float64, accountDestination *CheckingAccount) bool {
+	if amountToTransfer <= c.balance && amountToTransfer > 0 {
+		c.Withdraw(amountToTransfer)
+		accountDestination.Deposit(amountToTransfer)
 		return true
 	}
 	return false
