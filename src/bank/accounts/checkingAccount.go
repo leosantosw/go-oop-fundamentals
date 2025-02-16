@@ -1,36 +1,44 @@
 package accounts
 
+import (
+	"github.com/bank/customers"
+)
+
 type CheckingAccount struct {
-	Holder        string
+	Customer      customers.Customer
 	AgencyNumber  int
 	AccountNumber int
-	Balance       float64
+	balance       float64
 }
 
 func (c *CheckingAccount) Withdraw(value float64) (string, float64) {
-	canWithdraw := value > 0 && value <= c.Balance
+	canWithdraw := value > 0 && value <= c.balance
 	if canWithdraw {
-		c.Balance -= value
-		return "successfully", c.Balance
+		c.balance -= value
+		return "successfully", c.balance
 	} else {
-		return "enough balance", c.Balance
+		return "enough balance", c.balance
 	}
 }
 
 func (c *CheckingAccount) Deposit(value float64) (string, float64) {
 	if value > 0 {
-		c.Balance += value
-		return "successfully", c.Balance
+		c.balance += value
+		return "successfully", c.balance
 	} else {
-		return "enough deposit", c.Balance
+		return "enough deposit", c.balance
 	}
 }
 
 func (c *CheckingAccount) Transfer(valueToTransfer float64, accountDestination *CheckingAccount) bool {
-	if valueToTransfer <= c.Balance && valueToTransfer > 0 {
+	if valueToTransfer <= c.balance && valueToTransfer > 0 {
 		c.Withdraw(valueToTransfer)
 		accountDestination.Deposit(valueToTransfer)
 		return true
 	}
 	return false
+}
+
+func (c *CheckingAccount) GetBalance() float64 {
+	return c.balance
 }
