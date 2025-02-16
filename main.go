@@ -30,20 +30,24 @@ func (c *CheckingAccount) deposit(value float64) (string, float64) {
 	}
 }
 
+func (c *CheckingAccount) transfer(valueToTransfer float64, accountDestination *CheckingAccount) bool {
+	if valueToTransfer <= c.balance && valueToTransfer > 0 {
+		c.withdraw(valueToTransfer)
+		accountDestination.deposit(valueToTransfer)
+		return true
+	}
+	return false
+}
+
 func main() {
 	fmt.Println("Hi, welcome to the bank!")
-	// account1 := CheckingAccount{"Leonardo", 123, 123456789, 500.00}
-	account2 := new(CheckingAccount)
+	account1 := CheckingAccount{"Leonardo", 123, 123456789, 500.00}
+	account2 := CheckingAccount{"Daniel", 123, 123456789, 500.00}
 
-	account2.holder = "Leonardo"
-	account2.agencyNumber = 123
-	account2.accountNumber = 123456789
-	account2.balance = 500.00
+	fmt.Println("Account 1:", account1)
+	fmt.Println("Account 2:", account2)
+	fmt.Println(account1.transfer(-200, &account2))
 
-	// fmt.Println("Account:", account1 == *account2)
-	fmt.Println("Account:", *account2)
-
-	fmt.Println(account2.withdraw(100.00))
-
-	fmt.Println(account2.deposit(2000.00))
+	fmt.Println("Account 1:", account1.balance)
+	fmt.Println("Account 2:", account2.balance)
 }
